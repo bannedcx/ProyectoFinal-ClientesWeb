@@ -48,3 +48,25 @@ export const BackupManager = {
                     if (!data.leagues || !data.teams || !data.players || !data.matches || !data.events) {
                         throw new Error("El archivo JSON no tiene la estructura válida de LeagueHub.");
                     }
+
+                    await DB.executeTransaction(['leagues', 'teams', 'players', 'matches', 'events'], 'readwrite', (txn) => {
+                        const stores = ['leagues', 'teams', 'players', 'matches', 'events'];
+                        
+                        stores.forEach(storeName => {
+                            const store = txn.objectStore(storeName);
+                            store.clear(); // Limpiamos la base de datos actual para evitar choques de IDs
+                            data[storeName].forEach(item => store.add(item));
+                        });
+                    });
+
+                    resolve(true);
+                } catch (error) {
+                    reject(error);
+                }
+            };
+            
+            reader.onerror = () => reject(new Error("Error leyendo el archivo."));
+            reader.readAsText(file);
+        });
+    }
+};
