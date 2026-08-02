@@ -75,3 +75,20 @@ export const App = {
                 window.location.hash = '#dashboard';
                 break;
         }
+        
+        this.updateNavHighlight(route);
+    },
+
+    updateNavHighlight(currentRoute) {
+        const navLinks = document.querySelectorAll('nav a');
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === currentRoute) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+    }
+};
+
+document.addEventListener('DOMContentLoaded', () => App.init());
