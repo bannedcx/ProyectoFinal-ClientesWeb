@@ -31,3 +31,47 @@ export const App = {
         }
         window.location.hash = '#dashboard';
     },
+
+    handleRoute() {
+        const hash = window.location.hash || '#dashboard';
+        const container = document.getElementById('app-container');
+        if (!container) return;
+        
+        container.innerHTML = ''; 
+
+        const parts = hash.split('/');
+        const route = parts[0];
+        const param = parts[1] ? parseInt(parts[1]) : null;
+
+        if (!this.activeLeagueId && route !== '#leagues') {
+            window.location.hash = '#leagues';
+            return;
+        }
+
+        switch (route) {
+            case '#dashboard':
+                renderDashboard(container);
+                break;
+            case '#leagues':
+                renderLeagues(container);
+                break;
+            case '#teams':
+                renderTeams(container);
+                break;
+            case '#players':
+                renderPlayers(container);
+                break;
+            case '#matches':
+                renderMatches(container);
+                break;
+            case '#match':
+                if (param) renderMatchDetail(container, param);
+                else window.location.hash = '#matches';
+                break;
+            case '#stats':
+                renderStats(container);
+                break;
+            default:
+                window.location.hash = '#dashboard';
+                break;
+        }
