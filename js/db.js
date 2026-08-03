@@ -29,3 +29,28 @@ export const DB = {
                     store.createIndex('teamId', 'teamId', { unique: false });
                 }
             };
+
+            request.onsuccess = (e) => {
+                this.db = e.target.result;
+                resolve(true);
+            };
+
+            request.onerror = () => reject('Error iniciando IndexedDB');
+        });
+    },
+
+    async executeTransaction(storeNames, mode, callback) {
+        return new Promise((resolve, reject) => {
+            const transaction = this.db.transaction(storeNames, mode);
+            let resultData;
+
+            transaction.oncomplete = () => resolve(resultData);
+            transaction.onerror = (e) => reject(e.target.error);
+            transaction.onabort = () => reject(new Error("Transacción abortada"));
+
+            try {
+                const result = callback(transaction);
+                if (result instanceof Promise) {
+                    result.then(data => { resultData = data; }).catch(err => {
+                        reject(err);
+                        transaction.abort();
