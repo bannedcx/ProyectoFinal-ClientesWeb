@@ -64,3 +64,20 @@ class ConfirmDialog extends HTMLElement {
             `;
 
             document.body.appendChild(dialog);
+
+            dialog.querySelector('#btn-confirm').onclick = () => {
+                dialog.remove();
+                resolve(true);
+            };
+
+            dialog.querySelector('#btn-cancel').onclick = () => {
+                dialog.remove();
+                resolve(false);
+            };
+        });
+    }
+}
+customElements.define('confirm-dialog', ConfirmDialog);
+
+window.ToastNotification = ToastNotification;
+window.ConfirmDialog = ConfirmDialog;
