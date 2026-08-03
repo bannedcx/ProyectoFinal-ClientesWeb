@@ -54,3 +54,13 @@ export const DB = {
                     result.then(data => { resultData = data; }).catch(err => {
                         reject(err);
                         transaction.abort();
+                    });
+                } else {
+                    resultData = result;
+                }
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+};
