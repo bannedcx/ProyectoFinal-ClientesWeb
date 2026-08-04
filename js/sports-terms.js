@@ -26,4 +26,29 @@ export const SportsConfig = {
             scorersRanking: 'Encestadores', 
             individualScore: 'Canastas encestadas'
         },
-      
+        colors: {
+            primary: '#e67e22',
+            accent: '#d35400'
+        }
+    },
+    volleyball: {
+        id: 'volleyball',
+        name: 'Voleibol',
+        icon: '🏐',
+        terms: {
+            event: 'Punto', 
+            pointsFor: 'PF', 
+            pointsAgainst: 'PC', 
+            scorersRanking: 'Anotadores', 
+            individualScore: 'Puntos anotados'
+        },
+        colors: {
+            primary: '#2980b9',
+            accent: '#ecf0f1'
+        }
+    }
+};
+
+export const getSportConfig = (sportId) => {
+    return SportsConfig[sportId] || SportsConfig['football'];
+};
