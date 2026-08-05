@@ -28,3 +28,45 @@ export const TournamentEngine = {
             throw error;
         }
     },
+
+    async generateRoundRobin(league, teams) {
+        let teamIds = teams.map(t => t.id);
+        if (teamIds.length % 2 !== 0) teamIds.push(null); 
+
+        const totalRounds = teamIds.length - 1;
+        const matches = [];
+        let currentDate = new Date();
+
+        for (let round = 0; round < totalRounds; round++) {
+            currentDate.setDate(currentDate.getDate() + 2);
+            
+            for (let i = 0; i < teamIds.length / 2; i++) {
+                const home = teamIds[i];
+                const away = teamIds[teamIds.length - 1 - i];
+                
+                if (home !== null && away !== null) {
+                    matches.push({
+                        leagueId: league.id,
+                        homeTeamId: home,
+                        awayTeamId: away,
+                        date: currentDate.toISOString().slice(0, 16),
+                        status: 'Programado',
+                        score: { home: 0, away: 0 }
+                    });
+                }
+            }
+            teamIds.splice(1, 0, teamIds.pop());
+        }
+
+        if (league.config.rounds === 2) {
+            const returnMatches = matches.map(m => {
+                currentDate.setDate(currentDate.getDate() + 2);
+                return { ...m, homeTeamId: m.awayTeamId, awayTeamId: m.homeTeamId, date: currentDate.toISOString().slice(0, 16) };
+            });
+            matches.push(...returnMatches);
+        }
+
+        await DB.executeTransaction(['matches'], 'readwrite', txn => {
+            const store = txn.objectStore('matches');
+            matches.forEach(m => store.add(m));
+        });
