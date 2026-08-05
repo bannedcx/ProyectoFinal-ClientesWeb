@@ -70,3 +70,42 @@ export const TournamentEngine = {
             const store = txn.objectStore('matches');
             matches.forEach(m => store.add(m));
         });
+    },
+
+    async generateBracket(league, teams) {
+        const shuffled = [...teams].sort(() => Math.random() - 0.5); // Sorteo aleatorio
+        const matches = [];
+        let currentDate = new Date();
+        
+        const numTeams = teams.length;
+        const totalRounds = Math.log2(numTeams);
+        const roundNames = { 4: ['Semifinal', 'Final'], 8: ['Cuartos', 'Semifinal', 'Final'], 16: ['Octavos', 'Cuartos', 'Semifinal', 'Final'] };
+        const labels = roundNames[numTeams];
+
+        for (let r = 0; r < totalRounds; r++) {
+            currentDate.setDate(currentDate.getDate() + 3);
+            const matchesInRound = numTeams / Math.pow(2, r + 1);
+
+            for (let i = 0; i < matchesInRound; i++) {
+                const isFirstRound = r === 0;
+                matches.push({
+                    leagueId: league.id,
+                    homeTeamId: isFirstRound ? shuffled[i*2].id : null,
+                    awayTeamId: isFirstRound ? shuffled[i*2 + 1].id : null,
+                    date: currentDate.toISOString().slice(0, 16),
+                    status: 'Programado',
+                    score: { home: 0, away: 0 },
+                    round: labels[r],
+                    bracketKey: `R${r}-M${i}`, 
+                    nextMatchKey: r < totalRounds - 1 ? `R${r+1}-M${Math.floor(i/2)}` : null, 
+                    nextSlot: i % 2 === 0 ? 'homeTeamId' : 'awayTeamId'
+                });
+            }
+        }
+
+        await DB.executeTransaction(['matches'], 'readwrite', txn => {
+            const store = txn.objectStore('matches');
+            matches.forEach(m => store.add(m));
+        });
+    }
+};
