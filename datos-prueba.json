@@ -1,0 +1,28 @@
+{
+  "leagues": [
+    {
+      "name": "Liga Venezolana",
+      "sport": "football",
+      "season": "2026",
+      "modality": "liga",
+      "config": { "rounds": 1 },
+      "createdAt": "2026-08-02T12:00:00.000Z",
+      "isGenerated": false,
+      "id": 1
+    }
+  ],
+  "teams": [
+    { "leagueId": 1, "name": "Caracas FC", "city": "Caracas", "color1": "#e74c3c", "color2": "#c0392b", "stats": { "played": 0, "won": 0, "drawn": 0, "lost": 0, "pointsFor": 0, "pointsAgainst": 0, "points": 0 }, "id": 1 },
+    { "leagueId": 1, "name": "Deportivo Táchira", "city": "San Cristobal", "color1": "#f1c40f", "color2": "#000000", "stats": { "played": 0, "won": 0, "drawn": 0, "lost": 0, "pointsFor": 0, "pointsAgainst": 0, "points": 0 }, "id": 2 },
+    { "leagueId": 1, "name": "Zulia FC", "city": "Maracaibo", "color1": "#3498db", "color2": "#2980b9", "stats": { "played": 0, "won": 0, "drawn": 0, "lost": 0, "pointsFor": 0, "pointsAgainst": 0, "points": 0 }, "id": 3 },
+    { "leagueId": 1, "name": "Estudiantes", "city": "Mérida", "color1": "#2ecc71", "color2": "#ffffff", "stats": { "played": 0, "won": 0, "drawn": 0, "lost": 0, "pointsFor": 0, "pointsAgainst": 0, "points": 0 }, "id": 4 }
+  ],
+  "players": [
+    { "teamId": 1, "name": "Juan Arango", "number": 18, "position": "Medio", "photo": "", "stats": { "played": 0, "goals": 0 }, "id": 1 },
+    { "teamId": 2, "name": "Tomas Rincon", "number": 8, "position": "Defensa", "photo": "", "stats": { "played": 0, "goals": 0 }, "id": 2 },
+    { "teamId": 3, "name": "Yohandry Orozco", "number": 10, "position": "Delantero", "photo": "", "stats": { "played": 0, "goals": 0 }, "id": 3 },
+    { "teamId": 4, "name": "Romerito", "number": 9, "position": "Delantero", "photo": "", "stats": { "played": 0, "goals": 0 }, "id": 4 }
+  ],
+  "matches": [],
+  "events": []
+}
