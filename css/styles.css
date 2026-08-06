@@ -77,3 +77,37 @@ body {
     color: white;
     border-bottom-color: var(--accent-color);
 }
+
+#app-container {
+    flex: 1;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+#main-footer {
+    background-color: #2d3436;
+    color: white;
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.9rem;
+    margin-top: auto;
+}
+
+#db-status {
+    color: var(--accent-color);
+    margin-top: 0.5rem;
+    font-weight: bold;
+}
+
+.btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: filter 0.2s;
+}
